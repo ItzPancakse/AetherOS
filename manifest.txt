@@ -1,0 +1,6 @@
+startup.lua
+boot/init.lua
+bin/shell.lua
+boot/services.lua
+kernel/kernel.lua
+lib/filesystem.lua
