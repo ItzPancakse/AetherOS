@@ -7,9 +7,31 @@
 
 term.clear()
 term.setCursorPos(1,1)
-local version = require("version")
 
 local BASE_URL = "https://raw.githubusercontent.com/ItzPancakse/AetherOS/main/"
+
+local function get_remote_version()
+    if http then
+        local resp = http.get(BASE_URL .. "version.txt")
+        if resp then
+            local v = resp.readAll()
+            resp.close()
+            v = v:match("^%s*(.-)%s*$")
+            if v and #v > 0 then return v end
+        end
+        local resp2 = http.get(BASE_URL .. "version.lua")
+        if resp2 then
+            local chunk = resp2.readAll()
+            resp2.close()
+            local v = chunk:match('return%(%s*"(.-)"%s*%)') or chunk:match('return%s+"(.-)"')
+            if v and #v > 0 then return v end
+        end
+    end
+    return nil
+end
+
+local ok, ver = pcall(require, "version")
+local version = ok and ver or get_remote_version() or "unknown"
 
 if not http then
     print("HTTP API is disabled on this computer.")
