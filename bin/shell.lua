@@ -38,6 +38,7 @@ local function resolveCommand(cmd)
         "/bin/" .. cmd .. ".lua",
         "/sbin/" .. cmd .. ".lua",
         "/apps/" .. cmd .. ".lua",
+        "/rom/programs/" .. cmd .. ".lua",
     }
     for _, path in ipairs(candidates) do
         if fs.exists(path) and not fs.isDir(path) then

@@ -35,6 +35,7 @@ local candidates = {
     "/sbin/" .. cmd .. ".lua",
     "/" .. cmd .. ".lua",
     "/apps/" .. cmd .. ".lua",
+    "/rom/programs/" .. cmd .. ".lua",
 }
 
 for _, path in ipairs(candidates) do
