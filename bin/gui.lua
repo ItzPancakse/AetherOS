@@ -4,5 +4,4 @@
 -- Terminal-only build: the graphical desktop is disabled.
 
 print("AetherOS is running in terminal-only mode.")
-print("The desktop environment is disabled in this build.")
 print("Use the shell and command-line apps instead.")

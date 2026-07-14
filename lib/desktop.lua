@@ -21,7 +21,7 @@ local screenW, screenH = term.getSize()
 local taskbarY = screenH
 
 local icons = {
-    { label = "Terminal", program = "/shell.lua", glyph = ">_", w = 42, h = 16 },
+    { label = "Terminal", program = "/bin/shell.lua", glyph = ">_", w = 42, h = 16 },
     { label = "Files", program = "/apps/files.lua", glyph = "[]", w = 40, h = 16 },
     { label = "Settings", program = "/apps/settings.lua", glyph = "*", w = 36, h = 14 },
     { label = "Create Ctl", program = "/apps/createctl.lua", glyph = "~", w = 46, h = 17 },
