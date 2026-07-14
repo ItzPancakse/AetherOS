@@ -205,24 +205,14 @@ if aether.config.get("updateCheckOnBoot") then
 end
 
 if isAdvanced then
-    bootLine(true, "Advanced computer detected - launching desktop")
-    sleep(0.3)
-    local ok, err = pcall(dofile, "/lib/desktop.lua")
-    if not ok then
-        term.setBackgroundColor(colors.black)
-        term.setTextColor(colors.red)
-        print("Desktop environment crashed: " .. tostring(err))
-        print("Falling back to CLI shell.")
-        term.setTextColor(colors.white)
-        aether.kernel:spawn("shell", function() shell.run("/shell.lua") end, "system")
-        aether.kernel:run()
-    end
+    bootLine(true, "Advanced computer detected - starting terminal shell")
 else
-    bootLine(false, "No advanced computer/monitor - graphical desktop unavailable")
-    print("")
-    print("Type 'gui' to try launching the desktop anyway,")
-    print("or 'help' for a list of commands.")
-    print("")
-    aether.kernel:spawn("shell", function() shell.run("/shell.lua") end, "system")
-    aether.kernel:run()
+    bootLine(false, "No advanced computer/monitor - starting terminal shell")
 end
+
+print("")
+print("This build runs in terminal-only mode.")
+print("Type 'help' for available commands.")
+print("")
+aether.kernel:spawn("shell", function() shell.run("/shell.lua") end, "system")
+aether.kernel:run()
