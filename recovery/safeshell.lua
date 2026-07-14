@@ -8,9 +8,14 @@
 term.setTextColor(colors.white)
 print("AetherOS safe shell. Type 'help' for commands, 'exit' to leave.")
 
+local currentDir = "/"
+
 local function resolve(p)
-    if not p or p == "" then return shell.dir() == "" and "/" or "/" .. shell.dir() end
-    return shell.resolve(p)
+    if not p or p == "" then return currentDir end
+    if p:sub(1, 1) == "/" then
+        return fs.combine("/", p:sub(2))
+    end
+    return fs.combine(currentDir, p)
 end
 
 local function cmd_help()
@@ -63,7 +68,7 @@ local function cmd_cd(args)
         print("cd: no such directory: " .. path)
         return
     end
-    shell.setDir(path)
+    currentDir = path
 end
 
 local function cmd_cat(args)
@@ -168,7 +173,7 @@ while true do
     term.setTextColor(colors.white)
     term.write(":")
     term.setTextColor(colors.lightBlue)
-    term.write(resolve())
+    term.write(currentDir)
     term.setTextColor(colors.white)
     term.write("$ ")
 

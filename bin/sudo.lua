@@ -32,7 +32,7 @@ end
 
 local cmd = table.remove(args, 1)
 local candidates = {
-    "/s" .. cmd .. ".lua",
+    "/sbin/" .. cmd .. ".lua",
     "/" .. cmd .. ".lua",
     "/apps/" .. cmd .. ".lua",
 }

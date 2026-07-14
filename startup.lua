@@ -4,6 +4,30 @@
 
 local bootPath = "boot/init.lua"
 
+local function read_boot_mode()
+    if not fs.exists("/etc/bootmode") then
+        return nil
+    end
+
+    local file = fs.open("/etc/bootmode", "r")
+    if not file then
+        return nil
+    end
+
+    local mode = file.readAll()
+    file.close()
+    if mode then
+        mode = mode:gsub("^%s+", ""):gsub("%s+$", "")
+    end
+    return mode ~= "" and mode or nil
+end
+
+local function clear_boot_mode()
+    if fs.exists("/etc/bootmode") then
+        fs.delete("/etc/bootmode")
+    end
+end
+
 local function read_local_version()
     if fs.exists("version.lua") then
         local f = fs.open("version.lua", "r")
@@ -32,6 +56,15 @@ end
 
 local ok, ver = pcall(require, "version")
 local version = ok and ver or "unknown"
+
+local bootMode = read_boot_mode()
+if bootMode == "recovery" then
+    clear_boot_mode()
+    shell.run("/recovery.lua")
+    return
+elseif bootMode and bootMode ~= "normal" then
+    clear_boot_mode()
+end
 
 if not fs.exists(bootPath) then
     term.setTextColor(colors.red)

@@ -17,6 +17,7 @@ lib/commands.lua
 lib/update.lua
 lib/crypto.lua
 lib/aes.lua
+shell.lua
 bin/shell.lua
 bin/ls.lua
 bin/cd.lua
