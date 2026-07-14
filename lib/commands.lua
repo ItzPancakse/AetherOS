@@ -53,5 +53,6 @@ return {
     { name = "help", usage = "help [command]", desc = "List commands, or show detail for one command." },
     { name = "man", usage = "man <command>", desc = "Show detailed help for a command." },
     { name = "asm", usage = "asm install|remove|update|upgrade|list|info", desc = "(sbin) AetherOS package manager - installs packages from GitHub repos." },
+    { name = "logout", usage = "logout", desc = "Log out of the current session." },
     { name = "exit", usage = "exit", desc = "Exit the current shell." },
 }

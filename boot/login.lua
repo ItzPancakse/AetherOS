@@ -11,6 +11,8 @@
 -- so you can fix things with 'passwd'. This isn't real security - just
 -- enough friction to feel like a proper login.
 
+term.clear()
+
 local config = dofile("/lib/config.lua")
 local ui = dofile("/lib/ui.lua")
 local cryptoOk, crypto = pcall(dofile, "/lib/crypto.lua")
