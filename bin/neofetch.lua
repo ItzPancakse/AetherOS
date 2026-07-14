@@ -3,7 +3,7 @@
 -- SPDX-License-Identifier: BSD-3-Clause
 -- its neofetch
 
-local version = require("version")
+local version = (aether and aether.version) or "unknown"
 
 local config = (aether and aether.config) or dofile("/lib/config.lua")
 local util = dofile("/lib/util.lua")

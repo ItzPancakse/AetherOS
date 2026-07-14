@@ -6,6 +6,7 @@
 -- update check.
 
 local BASE_URL = "https://raw.githubusercontent.com/ItzPancakse/AetherOS/main/"
+local VERSION_FILE = "version.txt"
 
 local update = {}
 update.BASE_URL = BASE_URL
@@ -18,10 +19,29 @@ local function readLocal(path)
     return (text:gsub("%s+$", ""))
 end
 
-local version = require("version")
+local function readVersion()
+    if aether and aether.version then
+        return aether.version
+    end
+
+    local localTxt = readLocal(VERSION_FILE)
+    if localTxt then
+        return localTxt
+    end
+
+    local localLua = readLocal("version.lua")
+    if localLua then
+        local parsed = localLua:match('return%(%s*"(.-)"%s*%)') or localLua:match('return%s+"(.-)"')
+        if parsed and #parsed > 0 then
+            return parsed
+        end
+    end
+
+    return "unknown"
+end
 
 function update.localVersion()
-    return readLocal(version) or "unknown"
+    return readVersion()
 end
 
 -- Returns ok, remoteVersion (or ok=false, errorMessage)
@@ -29,12 +49,19 @@ function update.remoteVersion()
     if not http then
         return false, "HTTP API is disabled on this computer or server"
     end
-    local response = http.get(BASE_URL .. version)
+    local response = http.get(BASE_URL .. VERSION_FILE)
+    if not response then
+        response = http.get(BASE_URL .. "version.lua")
+    end
     if not response then
         return false, "couldn't reach " .. BASE_URL
     end
     local text = response.readAll()
     response.close()
+    local parsed = text:match('return%(%s*"(.-)"%s*%)') or text:match('return%s+"(.-)"')
+    if parsed and #parsed > 0 then
+        return true, parsed
+    end
     return true, (text:gsub("%s+$", ""))
 end
 
@@ -71,7 +98,16 @@ function update.install(progressCb)
         line = line:gsub("^%s+", ""):gsub("%s+$", "")
         if #line > 0 then table.insert(files, line) end
     end
-    table.insert(files, version) -- always update the version file
+    local hasVersionFile = false
+    for _, file in ipairs(files) do
+        if file == VERSION_FILE then
+            hasVersionFile = true
+            break
+        end
+    end
+    if not hasVersionFile then
+        table.insert(files, VERSION_FILE) -- always update the version file
+    end
 
     local okCount, failed = 0, {}
 
