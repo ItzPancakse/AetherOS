@@ -30,6 +30,15 @@ wm.bottomMargin = 0 -- rows reserved at the bottom of the screen (taskbar)
 
 local MIN_W, MIN_H = 20, 6
 
+local function ensureVersionModule()
+    package.preload["version"] = package.preload["version"] or function()
+        if _G.aether and aether.version then
+            return aether.version
+        end
+        return "unknown"
+    end
+end
+
 local function usableH()
     return wm.screenH - wm.bottomMargin
 end
@@ -128,6 +137,7 @@ function wm.spawnWindow(program, args, opts)
     }
 
     win.co = coroutine.create(function()
+        ensureVersionModule()
         local prev = term.redirect(win.content)
         pcall(shell.run, program, table.unpack(win.args))
         term.redirect(prev)

@@ -26,8 +26,12 @@ local function read_local_version()
     return nil
 end
 
+package.preload["version"] = package.preload["version"] or function()
+    return read_local_version() or "unknown"
+end
+
 local ok, ver = pcall(require, "version")
-local version = ok and ver or read_local_version() or "unknown"
+local version = ok and ver or "unknown"
 
 if not fs.exists(bootPath) then
     term.setTextColor(colors.red)
