@@ -4,7 +4,30 @@
 
 local bootPath = "boot/init.lua"
 
-local version = require("version")
+local function read_local_version()
+    if fs.exists("version.lua") then
+        local f = fs.open("version.lua", "r")
+        if f then
+            local chunk = f.readAll()
+            f.close()
+            local v = chunk:match('return%(%s*"(.-)"%s*%)') or chunk:match('return%s+"(.-)"')
+            if v and #v > 0 then return v end
+        end
+    end
+    if fs.exists("version.txt") then
+        local f = fs.open("version.txt", "r")
+        if f then
+            local v = f.readLine()
+            f.close()
+            if v then v = v:match("^%s*(.-)%s*$") end
+            if v and #v > 0 then return v end
+        end
+    end
+    return nil
+end
+
+local ok, ver = pcall(require, "version")
+local version = ok and ver or read_local_version() or "unknown"
 
 if not fs.exists(bootPath) then
     term.setTextColor(colors.red)
