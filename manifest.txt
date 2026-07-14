@@ -45,6 +45,7 @@ bin/createctl.lua
 lib/asm.lua
 sbin/asm.lua
 templates/hello-world/manifest.json
+sbin/logout.lua
 templates/hello-world/main.lua
 lib/dkjson.lua
 bin/createui.lua
