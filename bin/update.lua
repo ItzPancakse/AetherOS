@@ -65,12 +65,31 @@ elseif args[1] == "install" then
     if #result.failed > 0 then
         term.setTextColor(colors.red)
         print(#result.failed .. " file(s) failed:")
-        for _, f in ipairs(result.failed) do print("  - " .. f) end
+        for _, f in ipairs(result.failed) do
+            print("  - " .. f)
+        end
         term.setTextColor(colors.white)
     else
-        print("Reboot to finish applying the update.")
-    end
+        local input
+        repeat
+            write("Reboot your computer? (Y/N): ")
+            input = string.upper(read())
 
+            if input ~= "Y" and input ~= "y" and input ~= "N" and input ~= "n" then
+                print("Invalid input. Please type Y or N.")
+            end
+        until input == "Y" or input == "y" or input == "N" or input == "n"
+
+        if input == "Y" or input == "y" then
+            write("Rebooting now...")
+            sleep(1)
+            term.clear()
+            sleep(0.5)
+            os.reboot()
+        elseif input == "N" or input == "n" then
+            print("To complete installation of the update, run 'reboot' to restart the computer.")
+        end
+    end
 else
     print("usage: update [check|install]")
 end
