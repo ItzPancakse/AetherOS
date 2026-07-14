@@ -32,8 +32,11 @@ end
 
 local function resolveCommand(cmd)
     local candidates = {
+        cmd,
         "/" .. cmd .. ".lua",
         "/s" .. cmd .. ".lua",
+        "/bin/" .. cmd .. ".lua",
+        "/sbin/" .. cmd .. ".lua",
         "/apps/" .. cmd .. ".lua",
     }
     for _, path in ipairs(candidates) do
