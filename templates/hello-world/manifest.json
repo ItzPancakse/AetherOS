@@ -1,0 +1,10 @@
+{
+  "name": "hello-world",
+  "version": "1.0.0",
+  "author": "your-name-here",
+  "description": "An example AetherOS package that prints Hello, world!",
+  "os_version": "1.0.0",
+  "dependencies": [],
+  "files": ["main.lua", "README.md"],
+  "bin": { "hello": "main.lua" }
+}

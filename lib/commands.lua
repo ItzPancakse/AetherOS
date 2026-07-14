@@ -52,5 +52,6 @@ return {
     { name = "shutdown", usage = "shutdown", desc = "Power off the computer." },
     { name = "help", usage = "help [command]", desc = "List commands, or show detail for one command." },
     { name = "man", usage = "man <command>", desc = "Show detailed help for a command." },
+    { name = "asm", usage = "asm install|remove|update|upgrade|list|info", desc = "(sbin) AetherOS package manager - installs packages from GitHub repos." },
     { name = "exit", usage = "exit", desc = "Exit the current shell." },
 }

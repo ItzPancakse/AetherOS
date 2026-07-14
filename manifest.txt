@@ -42,6 +42,11 @@ bin/df.lua
 bin/neofetch.lua
 bin/peripherals.lua
 bin/createctl.lua
+lib/asm.lua
+sbin/asm.lua
+templates/hello-world/manifest.json
+templates/hello-world/main.lua
+lib/dkjson.lua
 bin/createui.lua
 bin/gui.lua
 bin/files.lua
