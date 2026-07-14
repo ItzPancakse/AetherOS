@@ -48,12 +48,19 @@ local function resolveCommand(cmd)
     return nil
 end
 
+local function completeLine(text)
+    if shell and shell.complete then
+        return shell.complete(text)
+    end
+    return nil
+end
+
 print("AetherOS shell. Type 'help' for a list of commands.")
 
 while true do
     prompt()
 
-    local ok, line = pcall(read, nil, history)
+    local ok, line = pcall(read, nil, history, completeLine)
     if not ok or line == nil then
         print("")
         break
