@@ -28,6 +28,22 @@ local function clear_boot_mode()
     end
 end
 
+local function setBootMode(mode)
+    if not fs.exists("/etc") then
+        fs.makeDir("/etc")
+    end
+
+    if mode and mode ~= "" then
+        local file = fs.open("/etc/bootmode", "w")
+        if file then
+            file.write(mode)
+            file.close()
+        end
+    else
+        clear_boot_mode()
+    end
+end
+
 local function read_local_version()
     if fs.exists("version.lua") then
         local f = fs.open("version.lua", "r")
@@ -70,7 +86,10 @@ if not fs.exists(bootPath) then
     term.setTextColor(colors.red)
     print("ERROR: System could not boot:")
     print("Core boot script missing at " .. bootPath)
-    print("Try running netinstall.lua to reinstall AetherOS.")
+    print("Rebooting to recovery")
+    sleep(2)
+    setBootMode("recovery")
+    os.reboot()
     return
 end
 
