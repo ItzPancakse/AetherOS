@@ -109,7 +109,7 @@ end
 term.setTextColor(colors.lightBlue)
 printCentered("AetherOS")
 term.setTextColor(colors.lightGray)
-printCentered("a linux-like OS for CC:Tweaked")
+printCentered("")
 print("")
 
 local steps = {

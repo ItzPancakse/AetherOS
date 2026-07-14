@@ -28,6 +28,14 @@ local function clear_boot_mode()
     end
 end
 
+local function path_exists(path)
+    if not path or path == "" then
+        return true
+    end
+    path = path:gsub("^/", "")
+    return fs.exists(path)
+end
+
 local function setBootMode(mode)
     if not fs.exists("/etc") then
         fs.makeDir("/etc")
@@ -80,6 +88,42 @@ if bootMode == "recovery" then
     return
 elseif bootMode and bootMode ~= "normal" then
     clear_boot_mode()
+end
+
+local function missing_manifest_files()
+    if not fs.exists("manifest.txt") then
+        return { "manifest.txt" }
+    end
+
+    local file = fs.open("manifest.txt", "r")
+    if not file then
+        return { "manifest.txt" }
+    end
+
+    local missing = {}
+    for line in file.readAll():gmatch("[^\r\n]+") do
+        local path = line:gsub("^%s+", ""):gsub("%s+$", "")
+        if path ~= "" and not path:match("^#") and not path_exists(path) then
+            table.insert(missing, path)
+        end
+    end
+    file.close()
+    return missing
+end
+
+local missingFiles = missing_manifest_files()
+if #missingFiles > 0 then
+    term.setTextColor(colors.red)
+    print("ERROR: Required files are missing:")
+    for _, path in ipairs(missingFiles) do
+        print("  - " .. path)
+    end
+    print("")
+    print("Entering recovery mode...")
+    sleep(1.5)
+    setBootMode("recovery")
+    shell.run("/recovery.lua")
+    return
 end
 
 if not fs.exists(bootPath) then
