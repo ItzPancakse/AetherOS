@@ -9,7 +9,7 @@ math.randomseed(os.epoch("utc"))
 
 local aesModule = nil
 
--- Loads the vendored AES library in its own sandboxed environment. The
+-- Loads the AES library in its own sandboxed environment. The
 -- library declares most of its helpers as plain globals (SubTable,
 -- XorBlock, KeyExpansion, etc) - loading it this way keeps those out of
 -- AetherOS's shared global namespace instead of polluting it.
