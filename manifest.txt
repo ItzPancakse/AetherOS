@@ -25,7 +25,6 @@ lib/htmlrender.lua
 lib/aes.lua
 lib/dkjson.lua
 lib/markdown.lua
-lib/THIRD_PARTY_LICENSES.md
 bin/shell.lua
 bin/ls.lua
 bin/cd.lua
@@ -81,5 +80,3 @@ recovery/diagnose.lua
 recovery/repair.lua
 recovery/reset.lua
 recovery/safeshell.lua
-templates/asm-package/manifest.json
-templates/asm-package/main.lua
